@@ -7,10 +7,14 @@ Using OpenStack Ansible to create Network Topology
 • sudo yum install ansible
 • sudo pip install shade
 
+-------------------------------------------------------------------------------------------------------------
+
 - Certain assumptions before working with ansible playbook:
 • We already have an external network for our project called as “Public01”.
 • We have default image which comes with the devstack installation called as “cirros”
 • There are many flavors created already. I’m using the flavor called as “m1.micro”.
+
+-------------------------------------------------------------------------------------------------------------
 
 - Ansible files:
 • clouds.yml
@@ -30,15 +34,19 @@ Using OpenStack Ansible to create Network Topology
 - You can specify a different inventory file using the -i <path> option on the command line.
   • hosts - Which we have created in the current directory.
   • hosts - Which is present in /etc/ansible/
-  
+
+-------------------------------------------------------------------------------------------------------------
+
 - Following command executes the topology playbook with ansible:
+  [sank@localhost yamlcodes]$ ansible-playbook -i ./hosts topology.yml -vvv
   • “-i” is used to specify a different inventory file.
   • “-vvv” is used for verbose mode (more details)
-  • Network after running the play-book:
+  
   • After running the play-book, it will create the following element:
-  • Three networks will be created namely Private01, Private02, Private03.
-  • A subnet in each network will be created namely Private01_Subnet, Private02_Subnet, Private03_Subnet.
-  • A Router01 will be created which is connected to the Private01_Subnet, Private02_Subnet and the external network.
-  • A Router02 will be created which is connected to the Private03_Subnet and the external network.
-  • We have set the auto_ip parameter, which automatically assigns a floating IP to the instance.
+    • Three networks will be created namely Private01, Private02, Private03.
+    • A subnet in each network will be created namely Private01_Subnet, Private02_Subnet, Private03_Subnet.
+    • A Router01 will be created which is connected to the Private01_Subnet, Private02_Subnet and the external network.
+    • A Router02 will be created which is connected to the Private03_Subnet and the external network.
+    • We have set the auto_ip parameter, which automatically assigns a floating IP to the instance.
 
+-------------------------------------------------------------------------------------------------------------
