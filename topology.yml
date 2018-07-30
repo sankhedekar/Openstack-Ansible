@@ -1,0 +1,104 @@
+---
+- name: Creating a Test Topology
+  hosts: localhost
+  tasks:
+    - name: Creating Network - Private01
+      os_network:
+        cloud: devstack-admin
+        state: present
+        name: Private01
+        external: false
+        wait: yes
+
+    - name: Creating Network - Private02
+      os_network:
+        cloud: devstack-admin
+        state: present
+        name: Private02
+        external: false
+        wait: yes
+
+    - name: Creating Network - Private03
+      os_network:
+        cloud: devstack-admin
+        state: present
+        name: Private03
+        external: false
+        wait: yes
+
+    - name: Creating Subnet - Private01_Subnet
+      os_subnet:
+        cloud: devstack-admin
+        state: present
+        network_name: Private01
+        name: Private01_Subnet
+        cidr: 10.0.1.0/24
+        wait: yes
+
+    - name: Creating Subnet - Private02_Subnet
+      os_subnet:
+        cloud: devstack-admin
+        state: present
+        network_name: Private02
+        name: Private02_Subnet
+        cidr: 10.0.2.0/24
+        wait: yes
+
+    - name: Creating Subnet - Private03_Subnet
+      os_subnet:
+        cloud: devstack-admin
+        state: present
+        network_name: Private03
+        name: Private03_Subnet
+        cidr: 10.0.3.0/24
+        wait: yes
+
+    - name: Creating Router - Router01
+      os_router:
+        cloud: devstack-admin
+        state: present
+        name: Router01
+        network: Public01
+        interfaces:
+          - Private01_Subnet
+          - Private02_Subnet
+
+    - name: Creating Router - Router02
+      os_router:
+        cloud: devstack-admin
+        state: present
+        name: Router02
+        network: Public01
+        interfaces:
+          - Private03_Subnet
+
+    - name: Creating Instance - Instance01
+      os_server:
+        cloud: devstack-admin
+        state: present
+        name: Instance01
+        image: cirros-0.3.5-x86_64-disk
+        flavor: m1.micro
+        network: Private01
+        auto_ip: yes
+
+    - name: Creating Instance - Instance02
+      os_server:
+        cloud: devstack-admin
+        state: present
+        name: Instance02
+        image: cirros-0.3.5-x86_64-disk
+        flavor: m1.micro
+        network: Private02
+        auto_ip: yes
+
+    - name: Creating Instance - Instance03
+      os_server:
+        cloud: devstack-admin
+        state: present
+        name: Instance03
+        image: cirros-0.3.5-x86_64-disk
+        flavor: m1.micro
+        network: Private03
+        auto_ip: yes
+...
